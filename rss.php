@@ -29,7 +29,11 @@ if (!isset($site) || !isset($type)){
 }
 if (!isset($date) || $date == 'today'){
     $range_date = 'date:[' . date("Y-m-d\T00:00:00\Z") . ' TO ' . date("Y-m-d\T23:59:59\Z") . ']';
-}else{
+}else if ($date == 'week'){
+    $range_date = 'date:[NOW-7DAYS/DAY TO NOW/DAY+1DAY]';
+}else if ($date == 'month'){    
+    $range_date = 'date:[NOW-30DAYS/DAY TO NOW/DAY+1DAY]';
+}else{    
     $range_date = 'date:[' . $date . 'T00:00:00Z' . ' TO ' . $date . 'T23:59:59Z]';
 }    
 
@@ -55,8 +59,7 @@ $title_list = $result['facet_counts']['facet_fields']['title'];
             <item>
                 <title><?php echo $title?></title>
                 <link><?php echo $link ?></link>
-                <guid><?php echo $link ?></guid>
-                <pubDate><?php echo date(DATE_RSS) ?></pubDate>
+                <guid><?php echo $link ?></guid>                
                 <description>Visualizado <?php echo $count ?> vezes</description>
             </item>
         <?php endforeach; ?>
