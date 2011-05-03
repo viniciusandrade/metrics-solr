@@ -1,6 +1,8 @@
 <?php
+header('Content-Type: text/xml; charset=utf-8');
 
 require_once('config.php');
+ini_set("allow_url_fopen","1");
 
 function sanitize_title($title){
     $title = strtolower($title);
@@ -37,12 +39,14 @@ if (!isset($date) || $date == 'today'){
     $range_date = 'date:[' . $date . 'T00:00:00Z' . ' TO ' . $date . 'T23:59:59Z]';
 }    
 
+$type_filter = 'type:' . $type;
+
 //date:[2011-04-26T00:00:00Z TO 2011-04-26T23:59:00Z]
-$query = '?q=' . urlencode($range_date) . '&wt=php&rows=0';
+$query = '?q=' . $type_filter . '%20AND%20' . urlencode($range_date) . '&wt=php&rows=0';
 
 $request_url = $config['solr_url'] . $config['solr_index'] . '/select/' . $query;
 
-$response = file_get_contents($request_url);
+$response = @file_get_contents($request_url);
 eval("\$result = " . $response . ";");
 
 $title_list = $result['facet_counts']['facet_fields']['title'];

@@ -35,9 +35,10 @@ function postIt($url, $data) {
 
 $title = $_REQUEST['title'];
 $site = $_REQUEST['site'];
+$type = $_REQUEST['type'];
 $timestamp = date("Y-m-d\Th:i:s\Z");
 
-$params = array('add'=> array('doc'=> array("date" => $timestamp, "title" => $title, "site" => $site)));
+$params = array('add'=> array('doc'=> array("date" => $timestamp, "title" => $title, "site" => $site, "type" => $type)));
 
 $json_update_command = json_encode($params);
 
